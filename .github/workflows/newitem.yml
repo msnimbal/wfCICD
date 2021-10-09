@@ -25,14 +25,14 @@ jobs:
               if: steps.check.outputs.isMatch == 'true'
               shell: bash
               run: echo ${{ secrets.DEV_HUB_SFDXURL}} > ./SFDX_URL_STORE.txt
-            #- name: Authenticate against dev hub
-            #  uses: rahulmalhotra/salesforcedx-actions@master
-            #  if: steps.check.outputs.isMatch == 'true'
-            #  with:
-            #      args: force:auth:sfdxurl:store --sfdxurlfile=./SFDX_URL_STORE.txt --setalias=devhub --setdefaultdevhubusername
-            #- name: Create scratch org
-            #  uses: rahulmalhotra/salesforcedx-actions@master
-            #  if: steps.check.outputs.isMatch == 'true'
-            #  with:
-            #      args: force:org:create --definitionfile=config/project-scratch-def.json --setalias=scratch-org --setdefaultusername
+            - name: Authenticate against dev hub
+              uses: rahulmalhotra/salesforcedx-actions@master
+              if: steps.check.outputs.isMatch == 'true'
+              with:
+                  args: force:auth:sfdxurl:store --sfdxurlfile=./SFDX_URL_STORE.txt --setalias=devhub --setdefaultdevhubusername
+            - name: Create scratch org
+              uses: rahulmalhotra/salesforcedx-actions@master
+              if: steps.check.outputs.isMatch == 'true'
+              with:
+                  args: force:org:create --definitionfile=config/project-scratch-def.json --setalias=scratch-org --setdefaultusername
               
