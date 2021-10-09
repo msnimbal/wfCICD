@@ -18,6 +18,8 @@ jobs:
                   fromColumnName: TODO
                   toColumnId: ${{ github.event.project_card.column_id }}
                   toColumnName: IN PROGRESS
+            - name: PRINT isMatch
+              run: echo ${{ steps.check.outputs.isMatch }}
             - name: Check out the source code
               uses: actions/checkout@v1
               if: steps.check.outputs.isMatch == 'true'
