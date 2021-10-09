@@ -37,4 +37,37 @@ jobs:
               if: steps.check.outputs.isMatch == 'true'
               with:
                   args: force:org:create --definitionfile=config/project-scratch-def.json --setalias=scratch-org --setdefaultusername
+            - name: Push source
+              uses: rahulmalhotra/salesforcedx-actions@master
+              if: steps.check.outputs.isMatch == 'true'
+              with:
+                  args: force:source:push
+            - name: Create user
+              uses: rahulmalhotra/salesforcedx-actions@master
+              if: steps.check.outputs.isMatch == 'true'
+              with:
+                  args: force:user:create --definitionfile=config/user-def.json --setalias=new-user
+            - name: Change password
+              uses: rahulmalhotra/salesforcedx-actions@master
+              if: steps.check.outputs.isMatch == 'true'
+              with:
+                  args: force:user:password:generate --targetusername=new-user
+            - name: Display user information
+              id: display_user
+              uses: rahulmalhotra/salesforcedx-actions@master
+              if: steps.check.outputs.isMatch == 'true'
+              with:
+                  args: force:user:display --targetusername=new-user --json
+            - name: Display open url
+              id: display_url
+              uses: rahulmalhotra/salesforcedx-actions@master
+              if: steps.check.outputs.isMatch == 'true'
+              with:
+                  args: force:org:open --urlonly --targetusername=new-user --json
+            - name: Display org information
+              id: display_org
+              uses: rahulmalhotra/salesforcedx-actions@master
+              if: steps.check.outputs.isMatch == 'true'
+              with:
+                  args: force:org:display --targetusername=new-user --verbose --json
               
