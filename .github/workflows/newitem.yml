@@ -21,3 +21,13 @@ jobs:
             - name: Check out the source code
               uses: actions/checkout@v1
               if: steps.check.outputs.isMatch == 'true'
+            - name: Populate auth file with SFDX_URL secret
+              if: steps.check.outputs.isMatch == 'true'
+              shell: bash
+              run: echo ${{ secrets.DEV_HUB_SFDXURL}} > ./SFDX_URL_STORE.txt
+            - name: Authenticate against dev hub
+              uses: forcedotcom/salesforcedx-actions@master
+              if: steps.check.outputs.isMatch == 'true'
+              with:
+                  args: force:auth:sfdxurl:store --sfdxurlfile=./SFDX_URL_STORE.txt --setalias=devhub --setdefaultdevhubusername
+              
