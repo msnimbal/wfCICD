@@ -30,4 +30,9 @@ jobs:
               if: steps.check.outputs.isMatch == 'true'
               with:
                   args: force:auth:sfdxurl:store --sfdxurlfile=./SFDX_URL_STORE.txt --setalias=devhub --setdefaultdevhubusername
+            - name: Create scratch org
+              uses: forcedotcom/salesforcedx-actions@master
+              if: steps.check.outputs.isMatch == 'true'
+              with:
+                  args: force:org:create --definitionfile=config/project-scratch-def.json --setalias=scratch-org --setdefaultusername
               
